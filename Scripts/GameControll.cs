@@ -19,6 +19,9 @@ public class GameControll : MonoBehaviour
     private int prizeValue;
     private bool resultsChecked = false;
 
+    [SerializeField] private AudioClip _clip;
+  
+
     private void Start()
     {
         PrizeText.enabled = false;
@@ -26,6 +29,7 @@ public class GameControll : MonoBehaviour
     private void Update()
     {
         CheckRow();
+       
     }
     private void CheckRow()
     {
@@ -40,13 +44,26 @@ public class GameControll : MonoBehaviour
             CheckResult();
             PrizeText.enabled = true;
             PrizeText.text = "Prize " + prizeValue;
+           
         }
     }
     private void OnMouseDown()
     {
         if (Rows[0].RowStopped && Rows[1].RowStopped && Rows[2].RowStopped)
             StartCoroutine("PullHandle");
+        AudioManager.Instance.PLaySound(_clip);
+       
     }
+    //private void Touch()
+    //{
+    //    if (Rows[0].RowStopped && Rows[1].RowStopped && Rows[2].RowStopped)
+    //    {
+    //        if (Input.touchCount > 0)
+    //        StartCoroutine("PullHandle");
+            
+    //    }
+       
+    //}
     private IEnumerator PullHandle()
     {
         for(int  i = 0; i < 20; i+=5)
@@ -60,6 +77,7 @@ public class GameControll : MonoBehaviour
             Handle.Rotate(0f, 0f, -i);
             yield return new WaitForSeconds(0.01f);
         }
+       
     }
     private void CheckResult()
     {
@@ -103,6 +121,7 @@ public class GameControll : MonoBehaviour
         else if ((Rows[0].StoppedSlot == Rows[1].StoppedSlot) && (Rows[0].StoppedSlot == "Crown") || (Rows[0].StoppedSlot == Rows[2].StoppedSlot) && (Rows[0].StoppedSlot == "Crown") || (Rows[1].StoppedSlot == (Rows[2].StoppedSlot) && (Rows[1].StoppedSlot == "Crown")))
             prizeValue = 300;
         resultsChecked = true;
+      
     }
 
 }
